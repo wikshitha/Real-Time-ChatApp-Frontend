@@ -5,6 +5,7 @@ import ProfilePage from "./pages/profile"
 import SettingPage from "./pages/settings"
 import SignUpPage from "./pages/signup"
 import Navbar from "./components/navbar"
+import { Toaster } from "react-hot-toast"
 
 
 function App() {
@@ -13,7 +14,7 @@ function App() {
   return (
    <>
    <Navbar/>
-
+    <Toaster/>
     <Routes path="/*">
       <Route path="/signup" element={<SignUpPage/>} />
       <Route path="/login" element={<LoginPage/>} />
