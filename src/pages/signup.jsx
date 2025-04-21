@@ -13,11 +13,21 @@ export default function SignUpPage() {
   const [showPassword, setShowPassword] = useState(false);
 
   function validateForm() {
+    if (!firstName.trim()) return toast.error("First name is required");
+    if (!lastName.trim()) return toast.error("Last name is required");
+    if (!email.trim()) return toast.error("Email is required");
+    if (!/\S+@\S+\.\S+/.test(email)) return toast.error("Invalid email format");
+    if (!password) return toast.error("Password is required");
 
+    return true;
   }
 
   function handleSubmit (e) {
     e.preventDefault();
+
+    const success = validateForm();
+
+    if(success === true) {
     console.log({firstName, lastName, email, password})
     axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/users/register`,{
       firstName: firstName,
@@ -32,6 +42,7 @@ export default function SignUpPage() {
       console.log(err)
       toast.error(err?.response?.data?.message || "Something went wrong")
     })
+  }
 
   }
 
