@@ -2,7 +2,7 @@ import React from 'react'
 
 const SettingPage = () => {
   return (
-    <div>SettingPage</div>
+    <div className='bg-red-500'>SettingPage</div>
   )
 }
 

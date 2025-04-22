@@ -2,13 +2,12 @@ import axios from "axios";
 import { Eye, EyeOff, Lock, Mail, MessageSquare } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const Navigate = useNavigate();
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -23,7 +22,7 @@ export default function LoginPage() {
         console.log(res);
         toast.success("Logged in successfully");
         localStorage.setItem("token",res.data.token);
-        Navigate("/profile");
+        window.location.href = "/";
       })
       .catch((err) => {
         console.log(err);
