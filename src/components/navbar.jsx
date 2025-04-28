@@ -42,8 +42,8 @@ export default function Navbar() {
                   localStorage.removeItem("token");
                   window.location.href="/login";
                 }}>
-                  <LogOut className="size-5" />
-                  <span className="hidden sm:inline">Logout</span>
+                  <LogOut className="size-5 cursor-pointer" />
+                  <span className="hidden sm:inline cursor-pointer">Logout</span>
                 </button>
               </>
             )}
