@@ -1,23 +1,26 @@
-import axios from "axios";
-import { Eye, EyeOff, Lock, Mail, MessageSquare, User } from "lucide-react";
+import { Eye, EyeOff, Loader2, Lock, Mail, MessageSquare, User } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../lib/useAuth";
 
 export default function SignUpPage() {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+  });
   const [showPassword, setShowPassword] = useState(false);
 
+  const {signup,isSigningUp} = useAuth()
+
   function validateForm() {
-    if (!firstName.trim()) return toast.error("First name is required");
-    if (!lastName.trim()) return toast.error("Last name is required");
-    if (!email.trim()) return toast.error("Email is required");
-    if (!/\S+@\S+\.\S+/.test(email)) return toast.error("Invalid email format");
-    if (!password) return toast.error("Password is required");
+    if (!formData.firstName.trim()) return toast.error("First name is required");
+    if (!formData.lastName.trim()) return toast.error("Last name is required");
+    if (!formData.email.trim()) return toast.error("Email is required");
+    if (!/\S+@\S+\.\S+/.test(formData.email)) return toast.error("Invalid email format");
+    if (!formData.password) return toast.error("Password is required");
 
     return true;
   }
@@ -28,23 +31,12 @@ export default function SignUpPage() {
     const success = validateForm();
 
     if(success === true) {
-    console.log({firstName, lastName, email, password})
-    axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/users/register`,{
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      password: password
-    }).then((res) => {
-      console.log(res)
-      toast.success("Account created successfully")
-      navigate("/login")
-    }).catch((err) => {
-      console.log(err)
-      toast.error(err?.response?.data?.message || "Something went wrong")
-    })
+      signup(formData)
+    }
+   
   }
 
-  }
+  
 
   return (
   <div className="min-h-screen grid lg:grid-cols-2">
@@ -76,8 +68,8 @@ export default function SignUpPage() {
             type="text"
             placeholder="First Name"
             className="input input-bordered w-full pl-10"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
+            value={formData.firstName}
+            onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
           />
         </div>
       </div>
@@ -94,8 +86,8 @@ export default function SignUpPage() {
             type="text"
             placeholder="Last Name"
             className="input input-bordered w-full pl-10"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
+            value={formData.lastName}
+            onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
           />
         </div>
       </div>
@@ -112,8 +104,8 @@ export default function SignUpPage() {
             type="email"
             placeholder="Email"
             className="input input-bordered w-full pl-10"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={formData.email}
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           />
         </div>
       </div>
@@ -130,8 +122,8 @@ export default function SignUpPage() {
             type={showPassword ? "text" : "password"}
             placeholder="Password"
             className="input input-bordered w-full pl-10"
-            value={password}  
-            onChange={(e) => setPassword(e.target.value)}
+            value={formData.password}  
+            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
           />
            <button
                   type="button"
@@ -146,9 +138,16 @@ export default function SignUpPage() {
                 </button>
         </div>
       </div>
-      <button className="btn btn-primary w-full">
-            Create Account
-          </button>
+      <button type="submit" className="btn btn-primary w-full" disabled={isSigningUp}>
+              {isSigningUp ? (
+                <>
+                  <Loader2 className="size-5 animate-spin" />
+                  Loading...
+                </>
+              ) : (
+                "Create Account"
+              )}
+            </button>
       </form>
       <div className="text-center">
             <p className="text-base-content/60">
