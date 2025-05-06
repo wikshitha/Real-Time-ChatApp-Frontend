@@ -1,33 +1,23 @@
 import axios from "axios";
-import { Eye, EyeOff, Lock, Mail, MessageSquare } from "lucide-react";
+import { Eye, EyeOff,Loader2, Lock, Mail, MessageSquare } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
+import {useAuth} from "../lib/useAuth";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
   const [showPassword, setShowPassword] = useState(false);
+
+  const { login, isLoggingIn } = useAuth();
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    console.log(email, password);
-
-    axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/users/login`, {
-      email: email,
-      password: password
-    })
-      .then((res) => {
-        console.log(res);
-        toast.success("Logged in successfully");
-        localStorage.setItem("token",res.data.token);
-        window.location.href = "/";
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error(err?.response?.data?.message || "Something went wrong");
-      });
+    login(formData);
   }
 
   return (
@@ -63,10 +53,8 @@ export default function LoginPage() {
                   type="email"
                   className={`input input-bordered w-full pl-10`}
                   placeholder="Enter your email"
-                  value={email}
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                  }}
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 />
               </div>
             </div>
@@ -83,10 +71,8 @@ export default function LoginPage() {
                   type={showPassword ? "text" : "password"}
                   className={`input input-bordered w-full pl-10`}
                   placeholder="Enter your password"
-                  value={password}
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                  }}
+                  value={formData.password}
+                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                 />
                 <button
                   type="button"
@@ -101,9 +87,16 @@ export default function LoginPage() {
                 </button>
               </div>
             </div>
-            <button className="btn btn-primary w-full">
-            Log Account
-          </button>
+            <button type="submit" className="btn btn-primary w-full" disabled={isLoggingIn}>
+              {isLoggingIn ? (
+                <>
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                  Loading...
+                </>
+              ) : (
+                "Sign in"
+              )}
+            </button>
           </form>
 
           <div className="text-center">

@@ -20,24 +20,27 @@ useEffect(()=>{
 
 console.log({user})
 
-if(!user && isCheckingAuth) return(
+if(!user && isCheckingAuth)
+   return(
   <div className="flex items-center justify-center h-screen">
     <Loader className="size-10 animate-spin" />
   </div>
-)
+ );
 
   return (
-   <>
+   <div>
    <Navbar/>
-    <Toaster/>
-    <Routes path="/*">
+    
+    <Routes>
     <Route path="/" element={user ? <HomePage/> : <Navigate to="/login" />} />
-      <Route path="/signup" element={<SignUpPage/>} />
-      <Route path="/login" element={<LoginPage/>} />
+      <Route path="/signup" element={!user ?<SignUpPage/> : <Navigate to="/" /> } />
+      <Route path="/login" element={!user ?<LoginPage/> : <Navigate to="/" />} />
       <Route path="/settings" element={<SettingPage/>} />
       <Route path="/profile" element={<ProfilePage/>} />
     </Routes>
-    </>
+
+    <Toaster/>
+    </div>
   )
 }
 
