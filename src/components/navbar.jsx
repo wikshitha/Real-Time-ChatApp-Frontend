@@ -1,8 +1,9 @@
 import { LogOut, MessageSquare, Settings, User } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../lib/useAuth";
 
 export default function Navbar() {
-  const token = localStorage.getItem("token");
+  const {user} = useAuth();
   return (
     <header
        className="bg-base-100 border-b border-base-300 fixed w-full top-0 z-40 
@@ -31,7 +32,7 @@ export default function Navbar() {
               <span className="hidden sm:inline">Settings</span>
             </Link>
 
-            {token!==null && (
+            {user && (
               <>
                 <Link to="/profile" className={`btn btn-sm gap-2`}>
                   <User className="size-5" />
