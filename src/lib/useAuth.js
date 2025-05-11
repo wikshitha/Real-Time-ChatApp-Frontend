@@ -51,6 +51,20 @@ export const useAuth = create((set) => ({
         } finally {
             set({isLoggingIn: false})
         }
+    },
+
+    updateProfile: async (data) => {
+        set({isUpdatingProfile: true})
+        try {
+            const res = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/users/update`, data)
+            set({user: res.data})
+            toast.success("Profile updated successfully")
+        }catch (error) {
+            console.log(error)
+            toast.error(error?.response?.data?.message || "error in updating profile")
+        } finally {
+            set({isUpdatingProfile: false})
+        }
     }
 }));
 
