@@ -15,7 +15,7 @@ export const useAuth = create((set) => ({
             const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/users/check`)
 
             console.log(res.data)
-            set({user: res.data})
+            set({user: res.data.user})
 
         } catch (error) {
             console.log("Error checking auth", error)
@@ -29,7 +29,7 @@ export const useAuth = create((set) => ({
         set({isSigningUp: true})
         try {
             const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/users/register`, data)
-            set({user: res.data})
+            set({user: res.data.user})
             toast.success("Account created successfully")
         }catch (error) {
             console.log(error)
@@ -43,7 +43,7 @@ export const useAuth = create((set) => ({
         set({isLoggingIn: true})
         try {
             const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/users/login`, data)
-            set({user: res.data})
+            set({user: res.data.user})
             toast.success("Logged in successfully")
         }catch (error) {
             console.log(error)
@@ -57,7 +57,7 @@ export const useAuth = create((set) => ({
         set({isUpdatingProfile: true})
         try {
             const res = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/users/update`, data)
-            set({user: res.data})
+            set({user: res.data.user})
             toast.success("Profile updated successfully")
         }catch (error) {
             console.log(error)

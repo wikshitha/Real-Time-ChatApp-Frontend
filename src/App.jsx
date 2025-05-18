@@ -18,7 +18,7 @@ useEffect(()=>{
   checkAuth()
 },[checkAuth])
 
-console.log({user})
+console.log(user)
 
 if(!user && isCheckingAuth)
    return(
@@ -33,7 +33,7 @@ if(!user && isCheckingAuth)
     
     <Routes>
     <Route path="/" element={user ? <HomePage/> : <Navigate to="/login" />} />
-      <Route path="/signup" element={!user ?<SignUpPage/> : <Navigate to="/" /> } />
+      <Route path="/signup" element={!user ?<SignUpPage/> : <Navigate to="/login" /> } />
       <Route path="/login" element={!user ?<LoginPage/> : <Navigate to="/" />} />
       <Route path="/settings" element={<SettingPage/>} />
       <Route path="/profile" element={<ProfilePage/>} />

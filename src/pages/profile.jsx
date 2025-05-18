@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Camera, Mail, User } from "lucide-react";
 import { useAuth } from "../lib/useAuth";
+import { useLocation } from "react-router-dom";
 
 const ProfilePage = () => {
   const {user,updateProfile,isUpdatingProfile} = useAuth()
