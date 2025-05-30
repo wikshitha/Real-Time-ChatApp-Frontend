@@ -1,9 +1,5 @@
-import React from 'react'
+import {useChatStore} from "../lib/useChat";
 
-const HomePage = () => {
-  return (
-    <div>HomePage</div>
-  )
+export default function Home() {
+  
 }
-
-export default HomePage
