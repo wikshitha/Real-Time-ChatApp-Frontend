@@ -43,8 +43,9 @@ export const useAuth = create((set) => ({
         set({isLoggingIn: true})
         try {
             const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/users/login`, data)
-            set({user: res.data.user})
+            set({user: res.data.user})      
             toast.success("Logged in successfully")
+            localStorage.setItem("token", res.data.token);
         }catch (error) {
             console.log(error)
             toast.error(error?.response?.data?.message || "Login failed")
@@ -54,10 +55,32 @@ export const useAuth = create((set) => ({
     },
 
     updateProfile: async (data) => {
+
         set({isUpdatingProfile: true})
+
+        const token = localStorage.getItem("token");
+        if (!token) {
+            toast.error("Please login to update your profile")
+            return;
+        }
+
         try {
-            const res = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/users/update`, data)
-            set({user: res.data.user})
+            const res = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/users/update`, data,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+            )
+
+            const updatedUser = res.data.user;
+
+            set({user: updatedUser});
+            localStorage.setItem("user", JSON.stringify(updatedUser));
+
+        
+            console.log(data)
+            
             toast.success("Profile updated successfully")
         }catch (error) {
             console.log(error)

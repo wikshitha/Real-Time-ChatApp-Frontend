@@ -7,7 +7,9 @@ const ProfilePage = () => {
   const {user,updateProfile,isUpdatingProfile} = useAuth()
   const [selectedImg, setSelectedImg] = useState(null);
 
+
   async function handleUpload(e) {
+
     const file = e.target.files[0];
     console.log(file);
     if (!file) return;
@@ -15,11 +17,10 @@ const ProfilePage = () => {
     const reader = new FileReader();
 
     reader.readAsDataURL(file);
-
     reader.onload = async () => {
       const newImage = reader.result;
       setSelectedImg(newImage);
-      await updateProfile({ profilePic: newImage });
+      await updateProfile({ profilePic: newImage});
     }
     };
   
@@ -38,7 +39,7 @@ const ProfilePage = () => {
           <div className="flex flex-col items-center gap-4">
             <div className="relative">
               <img
-                src={selectedImg || user.profilePic || "/avator.png"}
+                src={selectedImg || user?.profilePic || "/avator.png"}
                 alt="Profile"
                 className="size-32 rounded-full object-cover border-4 "
               />
@@ -99,7 +100,7 @@ const ProfilePage = () => {
             <div className="space-y-3 text-sm">
               <div className="flex items-center justify-between py-2 border-b border-zinc-700">
                 <span>Member Since</span>
-                <span>{user.createdAt?.split("T")[0]}</span>
+                <span>{user?.createdAt?.split("T")[0]}</span>
               </div>
               <div className="flex items-center justify-between py-2">
                 <span>Account Status</span>
