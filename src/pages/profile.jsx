@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Camera, Mail, User } from "lucide-react";
 import { useAuth } from "../lib/useAuth";
+
 import { useLocation } from "react-router-dom";
 
 const ProfilePage = () => {
   const {user,updateProfile,isUpdatingProfile} = useAuth()
   const [selectedImg, setSelectedImg] = useState(null);
-
 
   async function handleUpload(e) {
 
@@ -21,6 +21,7 @@ const ProfilePage = () => {
       const newImage = reader.result;
       setSelectedImg(newImage);
       await updateProfile({ profilePic: newImage});
+      setSelectedImg(null);
     }
     };
   
@@ -39,7 +40,7 @@ const ProfilePage = () => {
           <div className="flex flex-col items-center gap-4">
             <div className="relative">
               <img
-                src={selectedImg || user?.profilePic || "/avator.png"}
+                src={user?.profilePic || "/avatar.png"} 
                 alt="Profile"
                 className="size-32 rounded-full object-cover border-4 "
               />
