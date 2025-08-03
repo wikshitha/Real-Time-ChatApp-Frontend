@@ -2,11 +2,13 @@ import { useState } from "react";
 import { Camera, Mail, User } from "lucide-react";
 import { useAuth } from "../lib/useAuth";
 
-import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const ProfilePage = () => {
   const {user,updateProfile,isUpdatingProfile} = useAuth()
   const [selectedImg, setSelectedImg] = useState(null);
+  const navigate = useNavigate();
+
 
   async function handleUpload(e) {
 
@@ -22,6 +24,8 @@ const ProfilePage = () => {
       setSelectedImg(newImage);
       await updateProfile({ profilePic: newImage});
       setSelectedImg(null);
+      navigate("/");
+
     }
     };
   
