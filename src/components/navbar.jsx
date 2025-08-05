@@ -1,9 +1,25 @@
-import { LogOut, MessageSquare, Settings, SunMoon, User } from "lucide-react"; // add SunMoon icon
+import { useEffect, useState } from "react";
+import { LogOut, MessageSquare, Settings, User, Moon, Sun } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../lib/useAuth";
 
 export default function Navbar() {
   const { user } = useAuth();
+
+  // Load from localStorage
+  const [theme, setTheme] = useState(() => localStorage.getItem("theme") || "light");
+
+  useEffect(() => {
+    // Apply theme on page load or when state changes
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    const newTheme = theme === "light" ? "dark" : "light";
+    console.log("Switching to:", newTheme); // ✅ Console log for testing
+    setTheme(newTheme);
+  };
 
   return (
     <header className="bg-base-100 border-b border-base-300 fixed w-full top-0 z-40 backdrop-blur-lg bg-base-100/80">
@@ -19,18 +35,13 @@ export default function Navbar() {
           </div>
 
           <div className="flex items-center gap-2">
-            {/* ✅ Theme Toggle Button */}
-            <button
-              data-toggle-theme="light,dark"
-              data-act-class="theme-active"
-              className="btn btn-sm btn-outline gap-2"
-              title="Toggle Theme"
-            >
-              <SunMoon className="w-4 h-4" />
-              <span className="hidden sm:inline">Theme</span>
+            {/* 🌗 Theme Toggle Button */}
+            <button onClick={toggleTheme} className="btn btn-sm btn-outline gap-2">
+              {theme === "light" ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
+              <span className="hidden sm:inline capitalize">{theme} Mode</span>
             </button>
 
-            <Link to={"/settings"} className="btn btn-sm gap-2 transition-colors">
+            <Link to="/settings" className="btn btn-sm gap-2 transition-colors">
               <Settings className="w-4 h-4" />
               <span className="hidden sm:inline">Settings</span>
             </Link>

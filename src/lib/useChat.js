@@ -32,6 +32,8 @@ export const useChatStore = create((set, get) => ({
         set({ isMessagesLoading: false });
       }
     },
+
+    setSelectedUser: (selectedUser) =>set({selectedUser}),
     // sendMessage: async (messageData) => {
     //   const { selectedUser, messages } = get();
     //   try {
