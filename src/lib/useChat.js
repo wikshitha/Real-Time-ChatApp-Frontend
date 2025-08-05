@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import toast from "react-hot-toast";
-
+import axios from "axios";
 
 export const useChatStore = create((set, get) => ({
     messages: [],
@@ -11,10 +11,19 @@ export const useChatStore = create((set, get) => ({
   
     getUsers: async () => {
       set({ isUsersLoading: true });
+      const token = localStorage.getItem("token");
       try {
-        const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/messages/users`);
+        const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/messages/users`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+        );
+      
         set({ users: res.data });
       } catch (error) {
+        console.log(error);
         toast.error(error?.response?.data?.message || "Failed to fetch users");
       } finally {
         set({ isUsersLoading: false });
