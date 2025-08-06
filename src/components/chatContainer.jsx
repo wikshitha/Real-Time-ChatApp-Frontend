@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useChatStore } from "../lib/useChat";
 import ChatHeader from "./chatHeader";
 import MessageInput from "./messageInput";
+import MessageSkeleton from "./skeltons/messageSkelton";
 
 
 export default function ChatContainer() {
@@ -11,7 +12,15 @@ export default function ChatContainer() {
         getMessages(selectedUser._id);
     },[selectedUser._id, getMessages]);
 
-    if(isMessagesLoading) return <div>Loading...</div>
+    if(isMessagesLoading) { return (
+        <div className="flex flex-1 flex-col overflow-auto">
+            <ChatHeader />
+            <MessageSkeleton />
+        
+            <MessageInput />
+        </div>
+    )
+    }
 
     return(
         <div className="flex flex-1 flex-col overflow-auto">
