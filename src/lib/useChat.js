@@ -32,8 +32,15 @@ export const useChatStore = create((set, get) => ({
   
     getMessages: async (userId) => {
       set({ isMessagesLoading: true });
+      const token = localStorage.getItem("token");
       try {
-        const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/messages/${userId}`);
+        const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/messages/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+        );
         set({ messages: res.data });
       } catch (error) {
         toast.error(error?.response?.data?.message || "Failed to fetch messages");
