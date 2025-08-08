@@ -49,16 +49,25 @@ export const useChatStore = create((set, get) => ({
       }
     },
 
+    sendMessage: async (messageData) => {
+      const token = localStorage.getItem("token");
+
+      const { selectedUser, messages } = get();
+      try {
+        const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/messages/send/${selectedUser._id}`, messageData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+        );
+        set({ messages: [...messages, res.data] });
+      } catch (error) {
+        console.log(error);
+        toast.error(error?.response?.data?.message || "Failed to send message");
+      }
+    },
     setSelectedUser: (selectedUser) =>set({selectedUser}),
-    // sendMessage: async (messageData) => {
-    //   const { selectedUser, messages } = get();
-    //   try {
-    //     const res = await axiosInstance.post(`/messages/send/${selectedUser._id}`, messageData);
-    //     set({ messages: [...messages, res.data] });
-    //   } catch (error) {
-    //     toast.error(error.response.data.message);
-    //   }
-    // },
   
     // subscribeToMessages: () => {
     //   const { selectedUser } = get();
