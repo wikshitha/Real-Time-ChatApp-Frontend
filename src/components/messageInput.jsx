@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { useState } from "react";
 import { useChatStore } from "../lib/useChat";
 import toast from "react-hot-toast";
-import { Image, Send } from "lucide-react";
+import { Image, Send, X } from "lucide-react";
 
 export default function MessageInput() {
 
