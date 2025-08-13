@@ -3,8 +3,10 @@ import { LogOut, MessageSquare, Settings, User, Moon, Sun } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../lib/useAuth";
 
+
 export default function Navbar() {
   const { user } = useAuth();
+  const {disconnectSocket} = useAuth();
 
   // Load from localStorage
   const [theme, setTheme] = useState(() => localStorage.getItem("theme") || "light");
@@ -57,6 +59,7 @@ export default function Navbar() {
                   className="flex gap-2 items-center"
                   onClick={() => {
                     localStorage.removeItem("token");
+                    disconnectSocket();
                     window.location.href = "/login";
                   }}
                 >

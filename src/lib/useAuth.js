@@ -111,10 +111,20 @@ export const useAuth = create((set, get) => ({
         console.log(user);
         if(!user || get().socket?.connected) return
 
-        const socket = io (import.meta.env.VITE_BACKEND_URL);
+        const socket = io (import.meta.env.VITE_BACKEND_URL,{
+          query: {
+            userId: user._id
+          }
+        }
+
+        );
         socket.connect()
 
         set({ socket: socket });
+
+        socket.on("getOnlineUsers", (userIds) => {
+          set({ onlineUsers: userIds });
+        });
       },
 
       disconnectSocket: () => {

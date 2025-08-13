@@ -12,7 +12,9 @@ import { Loader } from "lucide-react";
 import { themeChange } from "theme-change"; // ✅ Import this
 
 function App() {
-  const { user, checkAuth, isCheckingAuth } = useAuth();
+  const { user, checkAuth, isCheckingAuth,onlineUsers } = useAuth();
+
+  console.log(onlineUsers);
 
   // ✅ Check auth
   useEffect(() => {

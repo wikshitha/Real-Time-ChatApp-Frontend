@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { useAuth } from "./useAuth";
 
 export const useChatStore = create((set, get) => ({
     messages: [],
@@ -67,29 +68,28 @@ export const useChatStore = create((set, get) => ({
         toast.error(error?.response?.data?.message || "Failed to send message");
       }
     },
-    setSelectedUser: (selectedUser) =>set({selectedUser}),
   
-    // subscribeToMessages: () => {
-    //   const { selectedUser } = get();
-    //   if (!selectedUser) return;
+    subscribeToMessages: () => {
+      const { selectedUser } = get();
+      if (!selectedUser) return;
   
-    //   const socket = useAuthStore.getState().socket;
+      const socket = useAuth.getState().socket;
   
-    //   socket.on("newMessage", (newMessage) => {
-    //     const isMessageSentFromSelectedUser = newMessage.senderId === selectedUser._id;
-    //     if (!isMessageSentFromSelectedUser) return;
+      socket.on("newMessage", (newMessage) => {
+        const isMessageSentFromSelectedUser = newMessage.senderId === selectedUser._id;
+        if (!isMessageSentFromSelectedUser) return;
   
-    //     set({
-    //       messages: [...get().messages, newMessage],
-    //     });
-    //   });
-    // },
+        set({
+          messages: [...get().messages, newMessage],
+        });
+      });
+    },
   
-    // unsubscribeFromMessages: () => {
-    //   const socket = useAuthStore.getState().socket;
-    //   socket.off("newMessage");
-    // },
+    unsubscribeFromMessages: () => {
+      const socket = useAuth.getState().socket;
+      socket.off("newMessage");
+    },
   
-    // setSelectedUser: (selectedUser) => set({ selectedUser }),
+    setSelectedUser: (selectedUser) => set({ selectedUser }),
   }));
   
