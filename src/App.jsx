@@ -2,7 +2,6 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/home";
 import LoginPage from "./pages/login";
 import ProfilePage from "./pages/profile";
-import SettingPage from "./pages/settings";
 import SignUpPage from "./pages/signup";
 import Navbar from "./components/navbar";
 import { Toaster } from "react-hot-toast";
@@ -43,7 +42,6 @@ function App() {
         <Route path="/" element={user ? <HomePage /> : <Navigate to="/login" />} />
         <Route path="/signup" element={!user ? <SignUpPage /> : <Navigate to="/login" />} />
         <Route path="/login" element={!user ? <LoginPage /> : <Navigate to="/" />} />
-        <Route path="/settings" element={<SettingPage />} />
         <Route path="/profile" element={<ProfilePage />} />
       </Routes>
 

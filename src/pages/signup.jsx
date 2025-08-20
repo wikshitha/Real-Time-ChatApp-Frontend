@@ -1,4 +1,4 @@
-import { Eye, EyeOff, Loader2, Lock, Mail, MessageSquare, User } from "lucide-react";
+import { Eye, EyeOff, Loader2, Lock, Mail, MessageCircle, User } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
@@ -39,15 +39,16 @@ export default function SignUpPage() {
   
 
   return (
-  <div className="min-h-screen grid lg:grid-cols-2">
+    <div className="h-screen flex items-center justify-center bg-base-100">
   {/* left side */}
-  <div className="flex flex-col items-center justify-center sm:p-12">
-    <div className="w-full max-w-md space-y-8">
+  <div className="w-full max-w-md p-6 sm:p-12 bg-white dark:bg-base-200 rounded-2xl shadow-lg">
+    
     {/* LOGO */}
-    <div className="text-center mb-8">
+    <div className="text-center mb-6 sm:mb-8">
       <div className="flex flex-col items-center gap-2 group">
-        <div className="size-12 rounded-xl bg-amber-700 flex items-center justify-center group-hover:bg-amber-600 transition-colors">
-          <MessageSquare className="size-6 text-white" />
+        <div  className="w-12 h-12 rounded-xl bg-secondary/10 flex items-center justify-center transition-colors
+              group-hover:bg-secondary/20">
+          <MessageCircle className="size-6 text-secondary" />
         </div>
         <h1 className="text-2xl font-bold mt-2">Create an Account</h1>
         <p className="text-base-content/60">Get started with your free account</p>
@@ -138,7 +139,7 @@ export default function SignUpPage() {
                 </button>
         </div>
       </div>
-      <button type="submit" className="btn btn-primary w-full" disabled={isSigningUp}>
+      <button type="submit" className="btn btn-secondary w-full" disabled={isSigningUp}>
               {isSigningUp ? (
                 <>
                   <Loader2 className="size-5 animate-spin" />
@@ -152,14 +153,14 @@ export default function SignUpPage() {
       <div className="text-center">
             <p className="text-base-content/60">
               Already have an account?{" "}
-              <Link to="/login" className="link link-primary">
+              <Link to="/login" className="link link-secondary">
                 Sign in
               </Link>
             </p>
           </div>
     </div>
 
-  </div>
+  
   </div>
   )
 }
