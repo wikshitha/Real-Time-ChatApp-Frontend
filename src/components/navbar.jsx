@@ -1,74 +1,62 @@
 import { useEffect, useState } from "react";
-import { LogOut, MessageSquare, Settings, User, Moon, Sun } from "lucide-react";
+import { LogOut, MessageCircle, Settings, User, Moon, Sun, } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../lib/useAuth";
 
-
 export default function Navbar() {
-  const { user } = useAuth();
-  const {disconnectSocket} = useAuth();
-
-  // Load from localStorage
+  const { user, disconnectSocket } = useAuth();
   const [theme, setTheme] = useState(() => localStorage.getItem("theme") || "light");
 
   useEffect(() => {
-    // Apply theme on page load or when state changes
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem("theme", theme);
   }, [theme]);
 
   const toggleTheme = () => {
-    const newTheme = theme === "light" ? "dark" : "light";
-    console.log("Switching to:", newTheme); // ✅ Console log for testing
-    setTheme(newTheme);
+    setTheme(theme === "light" ? "dark" : "light");
   };
 
   return (
-    <header className="bg-base-100 border-b border-base-300 fixed w-full top-0 z-40 backdrop-blur-lg bg-base-100/80">
-      <div className="container mx-auto px-4 h-16">
-        <div className="flex items-center justify-between h-full">
-          <div className="flex items-center gap-8">
-            <Link to="/" className="flex items-center gap-2.5 hover:opacity-80 transition-all">
-              <div className="size-9 rounded-lg bg-primary/10 flex items-center justify-center">
-                <MessageSquare className="w-5 h-5 text-primary" />
-              </div>
-              <h1 className="text-lg font-bold">Chatty</h1>
-            </Link>
-          </div>
+    <header className="bg-base-100/80 backdrop-blur-md border-b border-base-300 fixed w-full top-0 z-40 shadow-sm">
+      <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+     {/* Brand */}
+<Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-all">
+  <div className="size-9 rounded-xl bg-secondary/20 flex items-center justify-center">
+    {/* Updated icon */}
+    <MessageCircle className="w-5 h-5 text-action" />
 
-          <div className="flex items-center gap-2">
-            {/* 🌗 Theme Toggle Button */}
-            <button onClick={toggleTheme} className="btn btn-sm btn-outline gap-2">
-              {theme === "light" ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
-              <span className="hidden sm:inline capitalize">{theme} Mode</span>
-            </button>
+  </div>
+  <h1 className="text-lg font-bold text-action">LiveLink</h1>
+</Link>
 
-            <Link to="/settings" className="btn btn-sm gap-2 transition-colors">
-              <Settings className="w-4 h-4" />
-              <span className="hidden sm:inline">Settings</span>
-            </Link>
 
-            {user && (
-              <>
-                <Link to="/profile" className="btn btn-sm gap-2">
-                  <User className="size-5" />
-                  <span className="hidden sm:inline">Profile</span>
-                </Link>
 
-                <button
-                  className="flex gap-2 items-center"
-                  onClick={() => {
-                    localStorage.removeItem("token");
-                    disconnectSocket();
-                    window.location.href = "/login";
-                  }}
-                >
-                  <LogOut className="size-5 cursor-pointer" />
-                  <span className="hidden sm:inline cursor-pointer">Logout</span>
-                </button>
-              </>
-            )}
-          </div>
+        {/* Actions */}
+        <div className="flex items-center gap-2">
+          <button onClick={toggleTheme} className="btn btn-sm btn-outline rounded-full gap-2">
+            {theme === "light" ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
+            <span className="hidden sm:inline capitalize">{theme} Mode</span>
+          </button>
+
+          {user && (
+            <>
+              <Link to="/profile" className="btn btn-sm rounded-full gap-2">
+                <User className="size-5" />
+                <span className="hidden sm:inline">Profile</span>
+              </Link>
+              <button
+                className="btn btn-sm rounded-full gap-2 btn-error text-white"
+                onClick={() => {
+                  localStorage.removeItem("token");
+                  disconnectSocket();
+                  window.location.href = "/login";
+                }}
+              >
+                <LogOut className="size-5" />
+                <span className="hidden sm:inline">Logout</span>
+              </button>
+            </>
+          )}
         </div>
       </div>
     </header>
