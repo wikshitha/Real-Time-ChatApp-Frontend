@@ -39,13 +39,12 @@ export default function SignUpPage() {
   
 
   return (
-    <div className="h-screen flex items-center justify-center bg-base-100">
-  {/* left side */}
+    <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center bg-base-100 pt-16 sm:pt-20">
   <div className="w-full max-w-md p-6 sm:p-12 bg-white dark:bg-base-200 rounded-2xl shadow-lg">
     
     {/* LOGO */}
     <div className="text-center mb-6 sm:mb-8">
-      <div className="flex flex-col items-center gap-2 group">
+      <div className="flex flex-col items-center gap-2 ">
         <div  className="w-12 h-12 rounded-xl bg-secondary/10 flex items-center justify-center transition-colors
               group-hover:bg-secondary/20">
           <MessageCircle className="size-6 text-secondary" />
@@ -56,7 +55,7 @@ export default function SignUpPage() {
     </div>
 
     {/* FORM */}
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
       <div className="form-control">
         <label className="label">
           <span className="label-text font-medium">First Name</span>
