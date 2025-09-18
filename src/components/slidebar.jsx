@@ -38,7 +38,7 @@ export default function Sidebar() {
             />
             <span>Online only</span>
           </label>
-          <span className="text-xs text-zinc-500">({onlineUsers.length - 1})</span>
+          <span className="text-xs text-zinc-500">({onlineUsers.length})</span>
         </div>
       </div>
 
